@@ -4,7 +4,7 @@
     <!-- Page Header -->
     <div class="page-header animate-fade-in">
         <div>
-            <h1>Welcome back, <%= currentUser.name %></h1>
+            <h1>Welcome back, <%- currentUser.name %></h1>
             <p class="greeting-sub">Manage your saved addresses below</p>
         </div>
         <a href="/address/add" class="btn btn-primary">
@@ -17,15 +17,15 @@
         <div class="address-grid">
             <% addresses.forEach(function(addr, index) { %>
                 <div class="glass-card glass-card-interactive address-card animate-slide-up delay-<%= Math.min(index + 1, 4) %>">
-                    <span class="badge badge-label"><%= addr.label %></span>
-                    <p class="address-street mt-2"><%= addr.street %></p>
+                    <span class="badge badge-label"><%- addr.label %></span>
+                    <p class="address-street mt-2"><%- addr.street %></p>
                     <p class="address-detail">
-                        <%= addr.city %>, <%= addr.state %> <%= addr.zip %><br>
-                        <%= addr.country %>
+                        <%- addr.city %>, <%- addr.state %> <%- addr.zip %><br>
+                        <%- addr.country %>
                     </p>
                     <div class="address-actions">
-                        <a href="/address/edit/<%= addr._id %>" class="btn btn-outline btn-sm btn-icon">✏️ Edit</a>
-                        <form action="/address/delete/<%= addr._id %>" method="POST" class="delete-form inline-form">
+                        <a href="/address/edit/<%- addr._id %>" class="btn btn-outline btn-sm btn-icon">✏️ Edit</a>
+                        <form action="/address/delete/<%- addr._id %>" method="POST" class="delete-form inline-form">
                             <button type="submit" class="btn btn-danger btn-sm btn-icon">🗑️ Delete</button>
                         </form>
                     </div>

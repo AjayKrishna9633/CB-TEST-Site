@@ -11,15 +11,15 @@
 
     <div class="stats-grid animate-slide-up">
         <div class="glass-card stat-card">
-            <div class="stat-value"><%= users.length %></div>
+            <div class="stat-value"><%- users.length %></div>
             <div class="stat-label">Total Users</div>
         </div>
         <div class="glass-card stat-card">
-            <div class="stat-value"><%= users.filter(u => u.role === 'admin').length %></div>
+            <div class="stat-value"><%- users.filter(u => u.role === 'admin').length %></div>
             <div class="stat-label">Admins</div>
         </div>
         <div class="glass-card stat-card">
-            <div class="stat-value"><%= users.filter(u => u.role === 'user').length %></div>
+            <div class="stat-value"><%- users.filter(u => u.role === 'user').length %></div>
             <div class="stat-label">Regular Users</div>
         </div>
     </div>
@@ -32,10 +32,10 @@
                 name="search"
                 class="form-control"
                 placeholder="Search by name or email..."
-                value="<%= typeof search !== 'undefined' && search ? search : '' %>"
+                value="<%- typeof search !== 'undefined' && search ? search : '' %>"
             >
             <button type="submit" class="btn btn-primary btn-sm">Search</button>
-            <% if (typeof search !== 'undefined' && search) { %>
+                <%- if (typeof search !== 'undefined' && search) { %>
                 <a href="/admin" class="btn btn-outline btn-sm">Clear</a>
             <% } %>
         </form>
@@ -59,22 +59,22 @@
                         <% users.forEach(function(user) { %>
                             <tr>
                                 <td>
-                                    <span class="user-name"><%= user.name %></span>
+                                    <span class="user-name"><%- user.name %></span>
                                 </td>
                                 <td>
-                                    <span class="user-email"><%= user.email %></span>
+                                    <span class="user-email"><%- user.email %></span>
                                 </td>
                                 <td>
-                                    <span class="badge badge-<%= user.role %>"><%= user.role %></span>
+                                    <span class="badge badge-<%= user.role %>"><%- user.role %></span>
                                 </td>
                                 <td>
-                                    <%= new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+                                    <%- new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="/admin/user/<%= user._id %>" class="btn btn-outline btn-sm btn-icon">👁️ View</a>
-                                        <a href="/admin/user/<%= user._id %>/edit" class="btn btn-outline btn-sm btn-icon">✏️ Edit</a>
-                                        <form action="/admin/user/<%= user._id %>/delete" method="POST" class="delete-form inline-form">
+                                        <a href="/admin/user/<%- user._id %>" class="btn btn-outline btn-sm btn-icon">👁️ View</a>
+                                        <a href="/admin/user/<%- user._id %>/edit" class="btn btn-outline btn-sm btn-icon">✏️ Edit</a>
+                                        <form action="/admin/user/<%- user._id %>/delete" method="POST" class="delete-form inline-form">
                                             <button type="submit" class="btn btn-danger btn-sm btn-icon">🗑️</button>
                                         </form>
                                     </div>
@@ -89,11 +89,11 @@
                 <span class="empty-icon">🔍</span>
                 <h3>No users found</h3>
                 <p>
-                    <% if (typeof search !== 'undefined' && search) { %>
-                        No users match "<%= search %>". Try a different search term.
-                    <% } else { %>
+                    <%- if (typeof search !== 'undefined' && search) { %>
+                        No users match "<%- search %>". Try a different search term.
+                    <%- } else { %>
                         There are no registered users yet.
-                    <% } %>
+                    <%- } %>
                 </p>
                 <% if (typeof search !== 'undefined' && search) { %>
                     <a href="/admin" class="btn btn-outline">Clear Search</a>

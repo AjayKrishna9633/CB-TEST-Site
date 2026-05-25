@@ -5,7 +5,7 @@
         <h2>Edit Address</h2>
         <p class="form-subtitle">Update the details for this address</p>
 
-        <form action="/address/edit/<%= address._id %>" method="POST">
+        <form action="/address/edit/<%- address._id %>" method="POST">
             <div class="form-group">
                 <label for="label">Label</label>
                 <select id="label" name="label" class="form-control" required>
@@ -22,7 +22,7 @@
                     id="street"
                     name="street"
                     class="form-control"
-                    value="<%= address.street %>"
+                    value="<%- address.street %>"
                     required
                 >
             </div>
@@ -35,7 +35,7 @@
                         id="city"
                         name="city"
                         class="form-control"
-                        value="<%= address.city %>"
+                        value="<%- address.city %>"
                         required
                     >
                 </div>
@@ -47,7 +47,7 @@
                         id="state"
                         name="state"
                         class="form-control"
-                        value="<%= address.state %>"
+                        value="<%- address.state %>"
                         required
                     >
                 </div>
@@ -61,7 +61,7 @@
                         id="zip"
                         name="zip"
                         class="form-control"
-                        value="<%= address.zip %>"
+                        value="<%- address.zip %>"
                         required
                     >
                 </div>
@@ -73,7 +73,7 @@
                         id="country"
                         name="country"
                         class="form-control"
-                        value="<%= address.country %>"
+                        value="<%- address.country %>"
                         required
                     >
                 </div>
