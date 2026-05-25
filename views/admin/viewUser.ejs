@@ -1,0 +1,63 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <!-- Back Link -->
+    <div class="mb-3 animate-fade-in">
+        <a href="/admin" class="btn btn-outline btn-sm">← Back to Admin</a>
+    </div>
+
+    <!-- User Info Card -->
+    <div class="glass-card user-info-card animate-slide-up mb-4">
+        <div class="flex items-center gap-2 mb-3">
+            <h2><%= user.name %></h2>
+            <span class="badge badge-<%= user.role %>"><%= user.role %></span>
+        </div>
+        <div class="user-info-grid">
+            <div class="user-info-item">
+                <label>Email</label>
+                <span><%= user.email %></span>
+            </div>
+            <div class="user-info-item">
+                <label>Role</label>
+                <span><%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %></span>
+            </div>
+            <div class="user-info-item">
+                <label>Joined</label>
+                <span><%= new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+            </div>
+            <div class="user-info-item">
+                <label>User ID</label>
+                <span style="font-size:0.82rem; color: var(--text-muted);"><%= user._id %></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Addresses Section -->
+    <div class="page-header animate-fade-in">
+        <h3>Addresses (<%= addresses.length %>)</h3>
+    </div>
+
+    <% if (addresses && addresses.length > 0) { %>
+        <div class="address-grid">
+            <% addresses.forEach(function(addr, index) { %>
+                <div class="glass-card address-card animate-slide-up delay-<%= Math.min(index + 1, 4) %>">
+                    <span class="badge badge-label"><%= addr.label %></span>
+                    <p class="address-street mt-2"><%= addr.street %></p>
+                    <p class="address-detail">
+                        <%= addr.city %>, <%= addr.state %> <%= addr.zip %><br>
+                        <%= addr.country %>
+                    </p>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="glass-card empty-state animate-slide-up">
+            <span class="empty-icon">📭</span>
+            <h3>No addresses</h3>
+            <p>This user hasn't added any addresses yet.</p>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>
+

@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header animate-fade-in">
+        <div>
+            <h1>Welcome back, <%= currentUser.name %></h1>
+            <p class="greeting-sub">Manage your saved addresses below</p>
+        </div>
+        <a href="/address/add" class="btn btn-primary">
+            + Add Address
+        </a>
+    </div>
+
+    <!-- Address Cards -->
+    <% if (addresses && addresses.length > 0) { %>
+        <div class="address-grid">
+            <% addresses.forEach(function(addr, index) { %>
+                <div class="glass-card glass-card-interactive address-card animate-slide-up delay-<%= Math.min(index + 1, 4) %>">
+                    <span class="badge badge-label"><%= addr.label %></span>
+                    <p class="address-street mt-2"><%= addr.street %></p>
+                    <p class="address-detail">
+                        <%= addr.city %>, <%= addr.state %> <%= addr.zip %><br>
+                        <%= addr.country %>
+                    </p>
+                    <div class="address-actions">
+                        <a href="/address/edit/<%= addr._id %>" class="btn btn-outline btn-sm btn-icon">✏️ Edit</a>
+                        <form action="/address/delete/<%= addr._id %>" method="POST" class="delete-form inline-form">
+                            <button type="submit" class="btn btn-danger btn-sm btn-icon">🗑️ Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="glass-card empty-state animate-slide-up">
+            <span class="empty-icon">📍</span>
+            <h3>No addresses yet</h3>
+            <p>Add your first address to get started with UserVault.</p>
+            <a href="/address/add" class="btn btn-primary">+ Add Your First Address</a>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

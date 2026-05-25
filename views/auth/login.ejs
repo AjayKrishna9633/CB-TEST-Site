@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <div class="glass-card form-card animate-slide-up">
+        <h2>Welcome Back</h2>
+        <p class="form-subtitle">Sign in to your UserVault account</p>
+
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="you@example.com"
+                    required
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full">Sign In</button>
+        </form>
+
+        <p class="form-footer">
+            Don't have an account? <a href="/register">Register</a>
+        </p>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

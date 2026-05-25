@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <!-- Hero Section -->
+    <section class="hero animate-fade-in">
+        <h1 class="hero-title">
+            Manage Your <span class="gradient-text">World.</span>
+        </h1>
+        <p class="hero-subtitle">
+            Securely store and manage your addresses with our premium platform.
+            Beautiful, fast, and built for the modern web.
+        </p>
+        <div class="hero-cta">
+            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                <a href="/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
+            <% } else { %>
+                <a href="/register" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="/login" class="btn btn-outline btn-lg">Sign In</a>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="animate-slide-up">Why UserVault?</h2>
+        <div class="features-grid">
+            <div class="glass-card glass-card-interactive feature-card animate-slide-up delay-1">
+                <span class="feature-icon">🔐</span>
+                <h3>Secure Authentication</h3>
+                <p>Industry-standard encryption and session management keep your data protected at all times.</p>
+            </div>
+            <div class="glass-card glass-card-interactive feature-card animate-slide-up delay-2">
+                <span class="feature-icon">📍</span>
+                <h3>Address Management</h3>
+                <p>Store, organize, and manage multiple addresses with labels for home, work, and more.</p>
+            </div>
+            <div class="glass-card glass-card-interactive feature-card animate-slide-up delay-3">
+                <span class="feature-icon">👑</span>
+                <h3>Admin Controls</h3>
+                <p>Powerful admin dashboard to manage users, roles, and system settings with ease.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<%- include('partials/footer') %>

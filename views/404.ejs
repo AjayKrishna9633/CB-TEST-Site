@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="error-page animate-slide-up">
+        <div class="error-code">404</div>
+        <h2>Page Not Found</h2>
+        <p><%= typeof message !== 'undefined' && message ? message : "The page you're looking for doesn't exist or has been moved." %></p>
+        <a href="/" class="btn btn-primary">Go Home</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
