@@ -18,8 +18,15 @@ const isAuthenticated = async (req, res, next) => {
 
       if (!user) {
         // Session references a user that no longer exists
-        req.flash('error_msg', 'Please log in to continue');
-        return res.redirect('/login');
+        req.session.destroy((err) => {
+          if (err) {
+            console.error('Session destroy error during invalid auth check:', err.message);
+          }
+          res.clearCookie('connect.sid');
+          req.flash('error_msg', 'Please log in to continue');
+          return res.redirect('/login');
+        });
+        return;
       }
 
       req.user = user;

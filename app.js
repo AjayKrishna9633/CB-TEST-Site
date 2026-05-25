@@ -7,12 +7,8 @@ require('dotenv').config();
 const express        = require('express');
 const path           = require('path');
 const session        = require('express-session');
-const MongoStore     = require('connect-mongo');
 const flash          = require('connect-flash');
 const methodOverride = require('method-override');
-
-// Database connection helper
-const connectDB = require('./config/db');
 
 // Mongoose models
 const User = require('./models/User');
@@ -48,16 +44,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 // ----------------------------------------------------------
-// Session configuration — persisted in MongoDB via connect-mongo
+// Session configuration — using in-memory store
 // ----------------------------------------------------------
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'fallback_secret',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,
-    }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 24 hours
     },
@@ -83,7 +76,10 @@ app.use(async (req, res, next) => {
   if (req.session.userId) {
     try {
       const user = await User.findById(req.session.userId);
-      res.locals.currentUser = user; // null if user was deleted
+      if (!user) {
+        delete req.session.userId;
+      }
+      res.locals.currentUser = user;
     } catch (err) {
       res.locals.currentUser = null;
     }
@@ -125,30 +121,6 @@ app.use((req, res) => {
 // ----------------------------------------------------------
 // Start the server
 // ----------------------------------------------------------
-const startServer = async () => {
-  // 1. Connect to MongoDB
-  await connectDB();
-
-  // 2. Seed default admin account if it doesn't exist
-  try {
-    const adminExists = await User.findOne({ email: 'admin@admin.com' });
-    if (!adminExists) {
-      await User.create({
-        name: 'Admin',
-        email: 'admin@admin.com',
-        password: 'admin123',
-        role: 'admin',
-      });
-      console.log('Default admin created (admin@admin.com / admin123)');
-    }
-  } catch (err) {
-    console.error('Admin seed error:', err.message);
-  }
-
-  // 3. Listen on configured port
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-};
-
-startServer();
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

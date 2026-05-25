@@ -9,10 +9,14 @@ const User    = require('../models/User');
 // ----------------------------------------------------------
 // GET /register — show registration form
 // ----------------------------------------------------------
-router.get('/register', (req, res) => {
+router.get('/register', async (req, res) => {
   // If the user is already logged in, skip the form
   if (req.session.userId) {
-    return res.redirect('/dashboard');
+    const user = await User.findById(req.session.userId);
+    if (user) {
+      return res.redirect('/dashboard');
+    }
+    delete req.session.userId;
   }
   res.render('auth/register', { title: 'Register' });
 });
@@ -53,7 +57,12 @@ router.post('/register', async (req, res) => {
     // Log them in immediately
     req.session.userId = user._id;
     req.flash('success_msg', 'Registration successful! Welcome aboard.');
-    return res.redirect('/dashboard');
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error during registration:', err.message);
+      }
+      return res.redirect('/dashboard');
+    });
   } catch (err) {
     console.error('Registration error:', err.message);
     req.flash('error_msg', 'Something went wrong. Please try again.');
@@ -64,9 +73,13 @@ router.post('/register', async (req, res) => {
 // ----------------------------------------------------------
 // GET /login — show login form
 // ----------------------------------------------------------
-router.get('/login', (req, res) => {
+router.get('/login', async (req, res) => {
   if (req.session.userId) {
-    return res.redirect('/dashboard');
+    const user = await User.findById(req.session.userId);
+    if (user) {
+      return res.redirect('/dashboard');
+    }
+    delete req.session.userId;
   }
   res.render('auth/login', { title: 'Login' });
 });
@@ -101,12 +114,16 @@ router.post('/login', async (req, res) => {
     req.session.userId = user._id;
     req.flash('success_msg', `Welcome back, ${user.name}!`);
 
-    // Redirect admins to the admin dashboard
-    if (user.role === 'admin') {
-      return res.redirect('/admin');
-    }
-
-    return res.redirect('/dashboard');
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error during login:', err.message);
+      }
+      // Redirect admins to the admin dashboard
+      if (user.role === 'admin') {
+        return res.redirect('/admin');
+      }
+      return res.redirect('/dashboard');
+    });
   } catch (err) {
     console.error('Login error:', err.message);
     req.flash('error_msg', 'Something went wrong. Please try again.');
@@ -122,6 +139,7 @@ router.get('/logout', (req, res) => {
     if (err) {
       console.error('Logout error:', err.message);
     }
+    res.clearCookie('connect.sid');
     res.redirect('/');
   });
 });
