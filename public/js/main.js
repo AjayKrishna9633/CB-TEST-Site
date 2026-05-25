@@ -16,10 +16,21 @@ function initFlashMessages() {
   const alerts = document.querySelectorAll('.alert');
 
   alerts.forEach((alert) => {
+    // Extract message text (removing the icon and close button elements)
+    const tempAlert = alert.cloneNode(true);
+    const icon = tempAlert.querySelector('.alert-icon');
+    const closeBtn = tempAlert.querySelector('.alert-close');
+    if (icon) icon.remove();
+    if (closeBtn) closeBtn.remove();
+    const message = tempAlert.textContent.trim();
+    if (message) {
+      window.alert(message);
+    }
+
     // Close button
-    const closeBtn = alert.querySelector('.alert-close');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => dismissAlert(alert));
+    const closeBtnReal = alert.querySelector('.alert-close');
+    if (closeBtnReal) {
+      closeBtnReal.addEventListener('click', () => dismissAlert(alert));
     }
 
     // Auto-dismiss after 5 seconds
